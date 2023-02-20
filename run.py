@@ -4,6 +4,32 @@ import requests
 from twilio.rest import Client
 import os
 import smtplib
+import datetime 
+
+
+# Sending email
+def send_email(message):
+    my_pass = os.environ.get('ggg')
+    my_email = "cejvanniekirk098@gmail.com"
+    receiver = "kirko190255@gmail.com" # TODO change to os after restart
+
+
+    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+
+        smtp.login(my_email, my_pass)
+        subject = "New Weekly Ads"
+        body = message
+
+        msg = f"Subject: {subject}\n\n{body}"
+
+        smtp.sendmail(my_email, receiver, msg)
+
+
+
+
 
 
 url="https://www.myweeklyads.net/winco-foods-sales/"
@@ -34,41 +60,50 @@ phone_number = os.environ.get("my_number")
 
 
 
-# for texting
-# def send_text():
-#     twilio_number = "+18889393604"
-#     account_sid = os.environ.get('twilio_account_SID')
-#     auth_token = os.environ.get('twilio_auth_token')
-#     client = Client(account_sid, auth_token)
 
-#     message = client.messages.create(
-#         body=text,
-#         from_=twilio_number,
-#         to=phone_number
-#     )
+
+# str of today date converted to int
+today = int(str(datetime.datetime.now()).split(' ')[0].split('-')[2])
+
+weekly_ad_split = weekly_ad.split(' ')
+
+ad_start_date = int(weekly_ad_split[5])
+ad_end_date = int(weekly_ad_split[8].replace(',', ''))
 
 
 
-
-# Sending email
-def send_email(message):
-    my_pass = os.environ.get('ggg')
-    my_email = "cejvanniekirk098@gmail.com"
-    receiver = "kirko190255@gmail.com" # TODO change to os after restart
+if today in range(ad_start_date, ad_end_date+1):
+    pass
+else:
+    send_email(text)
 
 
-    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-        smtp.ehlo()
-        smtp.starttls()
-        smtp.ehlo()
-
-        smtp.login(my_email, my_pass)
-        subject = "New Weekly Ads"
-        body = message
-
-        msg = f"Subject: {subject}\n\n{body}"
-
-        smtp.sendmail(my_email, receiver, msg)
 
 
-send_email(text)
+
+
+
+
+
+
+
+
+
+
+
+# # for texting
+# # def send_text():
+# #     twilio_number = "+18889393604"
+# #     account_sid = os.environ.get('twilio_account_SID')
+# #     auth_token = os.environ.get('twilio_auth_token')
+# #     client = Client(account_sid, auth_token)
+
+# #     message = client.messages.create(
+# #         body=text,
+# #         from_=twilio_number,
+# #         to=phone_number
+# #     )
+
+
+
+
