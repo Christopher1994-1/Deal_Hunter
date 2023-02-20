@@ -3,6 +3,7 @@ from lxml import html
 import requests
 from twilio.rest import Client
 import os
+import smtplib
 
 
 url="https://www.myweeklyads.net/winco-foods-sales/"
@@ -36,14 +37,41 @@ print(text)
 
 
 
+# for texting
+# def send_text():
+#     twilio_number = "+18889393604"
+#     account_sid = os.environ.get('twilio_account_SID')
+#     auth_token = os.environ.get('twilio_auth_token')
+#     client = Client(account_sid, auth_token)
 
-twilio_number = "+18889393604"
-account_sid = os.environ.get('twilio_account_SID')
-auth_token = os.environ.get('twilio_auth_token')
-client = Client(account_sid, auth_token)
+#     message = client.messages.create(
+#         body=text,
+#         from_=twilio_number,
+#         to=phone_number
+#     )
 
-message = client.messages.create(
-    body=text,
-    from_=twilio_number,
-    to=phone_number
-        )
+
+
+
+# Sending email
+def send_email(message):
+    my_pass = os.environ.get('ggg')
+    my_email = "cejvanniekirk098@gmail.com"
+    receiver = "kirko190255@gmail.com" # TODO change to os after restart
+
+
+    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+
+        smtp.login(my_email, my_pass)
+        subject = "New Weekly Ads"
+        body = message
+
+        msg = f"Subject: {subject}\n\n{body}"
+
+        smtp.sendmail(my_email, receiver, msg)
+
+
+send_email(text)
