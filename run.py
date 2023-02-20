@@ -33,9 +33,6 @@ text = f"\n\n{weekly_ad}\n\n{text_content}"
 phone_number = os.environ.get("my_number")
 
 
-print(text)
-
-
 
 # for texting
 # def send_text():
